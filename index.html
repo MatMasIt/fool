@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet" type="text/css">
+    <link href="styles/dos.css" rel="stylesheet" type="text/css">
+</head>
+
+<body><!-- hai detto current games-->
+
+    <div class="flex">
+        <div class="box">
+            <h2>Adventure time</h2>
+            <div class="box-body">
+                <p>This is text adventure game</p>
+                <p>Everything is based on the idea of a series of events in which the player chooses what to do</p>
+                <p>Changes will be made soon....</p>
+            <!-- button primary se servisse-->
+            </div>
+        </div>
+    </div>
+
+    <div class="flex">
+        <div class="box">
+            <h2>About us</h2>
+            <div class="box-body">
+                <p> We are two students from a stupid highschool</p>
+                <p><a href="https://www.google.com/search?source=univ&tbm=isch&q=mattia+mascarello+immagini&fir=994VzfwlS3NURM%252CtMHmJhiDwhaJcM%252C_%253BGa8fUrvXK7OXmM%252CAqaSHVsKcAK6sM%252C_%253BNCqijtfgHNlcnM%252CDtFh_p-0SRC4iM%252C_%253B5PZgPcUBgJTAXM%252ClWk2SD5AeJfk9M%252C_%253BKTGCCYPIRadsVM%252CbyXXJPCNa6EiLM%252C_%253BmUGsI0n3GWNk9M%252CRE4aBGD01FXr6M%252C_%253BAqCw9J3b_NXSWM%252CNTYvXwyp2ArPyM%252C_%253BCMEuSgzk9RzecM%252CbyXXJPCNa6EiLM%252C_%253B6HxIUNyubNMRUM%252CbyXXJPCNa6EiLM%252C_%253B45ux8GDWw2fw2M%252CgoCK7TKeNUYOtM%252C_&usg=AI4_-kRijI4pgNXavrVCgcSeHNDjT9neHw&sa=X&ved=2ahUKEwjW4Mjb_MX0AhWCy6QKHSzGC2cQ7Al6BAgDEA8&biw=1863&bih=948&dpr=1.03#imgrc=4CoQYaBP01GCVM">Mattia Mascarello</a></p>
+                <p><a href="">Giacomo Roggero</a></p>
+            </div> 
+        </div> 
+
+        <div class="box" style="width: 65%">
+            <h2>Games</h2>
+            <div class="box-body">
+                <p>This ones are the games at this moment</p>
+            </div>
+            <!-- inserisco tabella-->
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>Hey you! Do you want to play? Register now</h2>
+        <div class="box-body">
+            <h3> </h2>
+            <form>
+                <div class="form-control">
+                    <label><input type="email" placeholder="Email"></label>
+                </div>
+                <div class="form-control">
+                    <label><input type="username" placeholder="Username"></label>
+                </div>
+                <div class="form-control">
+                    <label><input type="password" placeholder="Password"></label>
+                </div>
+                <div class="form-control">
+                    <label><button type="submit" class="primary">Register now!</button></label>
+                </div>
+            </form>
+        </div>
+
+        <div class="box-body">
+            <h3> SIGN IN</h3>
+            <form>
+                <div class="form-control">
+                    <label><input type="email username" placeholder="Email/Username"></label>
+                </div>
+                <div class="form-control">
+                    <label><input type="password" placeholder="Password"></label>
+                </div>
+                <div class="form-control">
+                    <label><button type="submit" class="primary">Please let me in!!!</button></label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="box-body">
+            <h2> COPYRIGHT</h2>
+            <p>All the rights are reserved. Please contact MatMadynaton@Spa for the use of this resources</p>
+        </div>
+    </div>
+    <div class="box">
+        <h2>Code Box</h2>
+        <div class="box-body">
+            <code><pre>
+'use strict';
+
+const crypto = require('crypto');
+
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY; // Must be 256 bytes (32 characters)
+const IV_LENGTH = 16; // For AES, this is always 16
+
+function encrypt(text) {
+  let iv = crypto.randomBytes(IV_LENGTH);
+  let cipher = crypto.createCipheriv('aes-256-cbc', new Buffer(ENCRYPTION_KEY), iv);
+  let encrypted = cipher.update(text);
+
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+  return iv.toString('hex') + ':' + encrypted.toString('hex');
+}
+
+function decrypt(text) {
+  let textParts = text.split(':');
+  let iv = new Buffer(textParts.shift(), 'hex');
+  let encryptedText = new Buffer(textParts.join(':'), 'hex');
+  let decipher = crypto.createDecipheriv('aes-256-cbc', new Buffer(ENCRYPTION_KEY), iv);
+  let decrypted = decipher.update(encryptedText);
+
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+  return decrypted.toString();
+}
+
+module.exports = { decrypt, encrypt };
+      </pre></code>
+        </div>
+    </div>
+
+</body>
+
+</html>
