@@ -1,13 +1,23 @@
+const express = require('express');
+const enableWs = require('express-ws')
 
-const express = require('express')
-const app = express()
-const port = 3000
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+var sharedVar = {};
+
+enableWs(app)
+
+app.ws('/gameserver', (ws, req) => {
+    ws.on('message', msg => {
+        console.log(msg);
+        ws.send(msg)
+    })
+
+    ws.on('close', () => {
+        console.log('WebSocket was closed')
+    })
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.use('/', express.static('web'));
 
+const server = app.listen(3000);
