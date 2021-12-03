@@ -14,11 +14,7 @@ function removeItemOnce(arr, value) {
     return arr;
 }
 
-function braoadcastAll(text) {
-    socketsList.forEach(function iterate(socket) {
-        socket.send(text);
-    })
-}
+
 
 enableWs(app)
 
@@ -28,7 +24,6 @@ app.ws('/gameserver', (ws, req) => {
     ws.on('message', msg => {
         console.log(msg);
         bat.stdin.write(msg+"\n");
-        //braoadcastAll(msg)    
     })
     bat.stdout.on('data', (data) => {
         console.log(data.toString('utf-8'));
