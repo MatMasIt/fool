@@ -2,6 +2,20 @@ var writebuffer = "";
 function okPrint(k) {
     return "ABCDEFGHIJLKMNOPQESTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'ì!\"£$%&/()=?èéà°°#*€@".split("").indexOf(k) != -1;
 }
+
+if (!String.prototype.replaceAll) {
+    String.prototype.replaceAll = function (str, newStr) {
+
+        // If a regex pattern
+        if (Object.prototype.toString.call(str).toLowerCase() === '[object regexp]') {
+            return this.replace(str, newStr);
+        }
+
+        // If a string
+        return this.replace(new RegExp(str, 'g'), newStr);
+
+    };
+}
 var gamefield = document.getElementById("field"), busy = true;
 setInterval(function type() {
     if (writebuffer[0] == undefined) {
@@ -40,7 +54,7 @@ document.addEventListener('keydown', function pressed(key) {
     else if (key.key.toLocaleLowerCase() == "enter") {
         let t = rows[rows.length - 1];
         rows[rows.length - 1] += "<br>";
-        ws.send(t.replace("&nbsp;", " "));
+        ws.send(t.replaceAll("&nbsp;", " "));
     }
     else if (key.key.toLocaleLowerCase() == " ") rows[rows.length - 1] += "&nbsp;";
     else if (okPrint(key.key)) rows[rows.length - 1] += key.key;
