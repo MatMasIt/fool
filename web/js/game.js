@@ -54,7 +54,7 @@ document.addEventListener('keydown', function pressed(key) {
     else if (key.key.toLocaleLowerCase() == "enter") {
         let t = rows[rows.length - 1];
         rows[rows.length - 1] += "<br>";
-        ws.send(t.replaceAll("&nbsp;", " "));
+        ws.send(t.replaceAll("&nbsp;", " ").replace("</span>",""));
     }
     else if (key.key.toLocaleLowerCase() == " ") rows[rows.length - 1] += "&nbsp;";
     else if (okPrint(key.key)) rows[rows.length - 1] += key.key;

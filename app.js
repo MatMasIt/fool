@@ -1,6 +1,6 @@
 const express = require('express');
 const enableWs = require('express-ws')
-
+const { spawn } = require('child_process');
 const app = express();
 
 var sharedVar = {};
@@ -24,13 +24,20 @@ enableWs(app)
 
 app.ws('/gameserver', (ws, req) => {
     socketsList.push(ws);
+    var bat = spawn('./gameC/game');
     ws.on('message', msg => {
         console.log(msg);
-        braoadcastAll(msg)
+        bat.stdin.write(msg+"\n");
+        //braoadcastAll(msg)    
     })
+    bat.stdout.on('data', (data) => {
+        console.log(data.toString('utf-8'));
+        ws.send(data.toString('utf-8'));
+    });
 
     ws.on('close', () => {
         console.log('WebSocket was closed')
+        bat.kill('SIGINT');
         socketsList = removeItemOnce(socketsList, ws);
     })
 })
