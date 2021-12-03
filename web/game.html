@@ -3,6 +3,7 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet" type="text/css">
     <link href="styles/dos.css" rel="stylesheet" type="text/css">
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -10,7 +11,9 @@
     <div class="flex">
         <div class="box">
             <h2>Box Title</h2>
-            <div class="box-body">
+            <div class="box-body" id="bbg">
+                <p id="field"></p><span class="blinking-cursor">█</span>
+                <!--
                 <p>Text adventure game</p>
                 <p>Something with a <a href="https://www.google.com">link to google.com</a> here</p>
                 <p>Some stuff</p>
@@ -18,6 +21,7 @@
                         google.com</a></p>
                 <p>And a <mark>mark<mark> in the text</p>
                 <p>Some stuff here</p>
+                -->
             </div>
         </div>
     </div>
@@ -38,13 +42,13 @@
         </div>
     </div>
 
-    
+
     <div class="box">
         <div class="box-body">
             <p>&copy; 2021 - Mattia Mascarello &amp; Giacomo Roggero</p>
         </div>
     </div>
-
+    <script src="js/game.js"></script>
 </body>
 
 </html>
