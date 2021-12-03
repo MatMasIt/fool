@@ -1,7 +1,4 @@
 /**
- * Main variables
- */
-/**
  * Base styles
  */
 html, body {
@@ -218,11 +215,6 @@ select {
     appearance: none;
 }
 
-textarea {
-    width: 100%;
-    min-height: 140px;
-}
-
 /* file input fields */
 label>input[type=file] {
     overflow: hidden;
@@ -230,17 +222,4 @@ label>input[type=file] {
 
 .form-control {
     margin: 0.5em 0;
-}
-
-.progress-bar {
-    border: 1px solid white;
-    display: block;
-    padding: 8px;
-    height: 30px;
-}
-
-.progress-bar span {
-    display: block;
-    height: 100%;
-    background: yellow;
 }
