@@ -1,4 +1,7 @@
 var writebuffer = "";
+var delay = 10;
+var audio = new Audio('old.mp3');
+audio.loop = true;
 function okPrint(k) {
     return "ABCDEFGHIJLKMNOPQESTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'ì!\"£$%&/()=?èéà°°#*€@".split("").indexOf(k) != -1;
 }
@@ -16,9 +19,13 @@ if (!String.prototype.replaceAll) {
 
     };
 }
-var gamefield = document.getElementById("field"), busy = true;
+var gamefield = document.getElementById("field"), busy = true, first = true;
 setInterval(function type() {
-    if (writebuffer[0] == undefined) {
+    if (first) {
+        busy = true;
+        return false;
+    }
+    else if (writebuffer[0] == undefined) {
         busy = false;
         return false;
     }
@@ -27,26 +34,45 @@ setInterval(function type() {
     else if (writebuffer[0] == " ") gamefield.innerHTML += "&nbsp;";
     else gamefield.innerHTML += writebuffer[0];
     writebuffer = writebuffer.substring(1);
-}, 100);
+}, delay);
 function type(text) {
     if (gamefield.innerHTML.slice(gamefield.innerHTML.length - 4) != "<br>") writebuffer += "\n" + text;
     else writebuffer += text;
 }
-var ws = new WebSocket("ws://localhost:3000/gameserver");
+var ws;
+function startSocket() {
+    gamefield.innerHTML = "";
+    ws = new WebSocket("ws://localhost:3000/gameserver");
 
-ws.onopen = function () {
-    ws.send("Hi, from the client."); // this works
+    ws.onopen = function () {
+        ws.send("Hi, from the client."); // this works
 
-};
+    };
 
-ws.onmessage = function (event) {
-    type(event.data + "\n");
-};
+    ws.onmessage = function (event) {
+        if (event.data.trim().split("|")[0] == "mu"){
+            audio.pause();
+            audio.src=event.data.trim().split("|")[1]+".mp3";
+            audio.currentTime=0;
+            audio.play();
+        }
+        else if (event.data.trim() == "CLOSE") {
+            ws.close();
+            gamefield.innerHTML+="<br /><p style=\"color:red\">The server hanged up</p>";
+        }
+        else {
+            type(event.data + "\n");
+        }
+    };
 
-ws.onclose = function () {
-    console.log("Connection closed...");
-};
+
+}
 document.addEventListener('keydown', function pressed(key) {
+    if (first) {
+        audio.play();
+        startSocket();
+        first = false;
+    }
     if (busy) return false;
     let rows = gamefield.innerHTML.split("<br>");
     rows[rows.length - 1] = rows[rows.length - 1].replace('<span class="userinput">', "").replace('</span>', "");
@@ -54,7 +80,7 @@ document.addEventListener('keydown', function pressed(key) {
     else if (key.key.toLocaleLowerCase() == "enter") {
         let t = rows[rows.length - 1];
         rows[rows.length - 1] += "<br>";
-        ws.send(t.replaceAll("&nbsp;", " ").replace("</span>",""));
+        ws.send(t.replaceAll("&nbsp;", " ").replace("</span>", ""));
     }
     else if (key.key.toLocaleLowerCase() == " ") rows[rows.length - 1] += "&nbsp;";
     else if (okPrint(key.key)) rows[rows.length - 1] += key.key;

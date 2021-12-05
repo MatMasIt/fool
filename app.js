@@ -14,25 +14,27 @@ function removeItemOnce(arr, value) {
     return arr;
 }
 
-function braoadcastAll(text) {
-    socketsList.forEach(function iterate(socket) {
-        socket.send(text);
-    })
-}
+
 
 enableWs(app)
 
 app.ws('/gameserver', (ws, req) => {
     socketsList.push(ws);
-    var bat = spawn('./gameC/game');
+    var bat = spawn('./gameC/game',["aaa"]);
     ws.on('message', msg => {
         console.log(msg);
-        bat.stdin.write(msg+"\n");
-        //braoadcastAll(msg)    
+        bat.stdin.write(msg + "\n");
     })
     bat.stdout.on('data', (data) => {
         console.log(data.toString('utf-8'));
         ws.send(data.toString('utf-8'));
+    });
+
+
+    bat.on('exit', (code) => {
+        console.log('WebSocket was closed')
+        ws.send("CLOSE");
+        ws.close();
     });
 
     ws.on('close', () => {
