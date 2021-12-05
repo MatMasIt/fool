@@ -1,4 +1,3 @@
-#include "playerdata.c"
 void logo()
 {
     printf("  █████▒▒█████   ▒█████   ██▓    \n");

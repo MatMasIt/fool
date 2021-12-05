@@ -65,7 +65,7 @@ int main()
     p.toRoomId = 1;
 
     rooms[2].ID = 3;
-    strcpy(rooms[2].name, "Casa di Giorgio Sinodi");
+    strcpy(rooms[2].name, "Casa di Sinodo");
     strcpy(rooms[2].desc, "The surgery room is occupied");
     strcpy(rooms[2].musicFile, "tarant");
     rooms[2].items[0] = items[1]; // vincenzo
@@ -86,7 +86,7 @@ int main()
     gf.worldsN = 1;
     gf.worlds[0] = w;
 
-    if ((fp = fopen("gamefile", "wb")) == NULL)
+    if ((fp = fopen("gamefile.obj", "wb")) == NULL)
     {
         printf("Could noy open file");
         exit(1);
