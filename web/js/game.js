@@ -1,5 +1,5 @@
 var writebuffer = "";
-
+var delay = 10;
 var audio = new Audio('old.mp3');
 audio.loop = true;
 function okPrint(k) {
@@ -34,14 +34,15 @@ setInterval(function type() {
     else if (writebuffer[0] == " ") gamefield.innerHTML += "&nbsp;";
     else gamefield.innerHTML += writebuffer[0];
     writebuffer = writebuffer.substring(1);
-}, 50);
+}, delay);
 function type(text) {
     if (gamefield.innerHTML.slice(gamefield.innerHTML.length - 4) != "<br>") writebuffer += "\n" + text;
     else writebuffer += text;
 }
+var ws;
 function startSocket() {
     gamefield.innerHTML = "";
-    var ws = new WebSocket("ws://localhost:3000/gameserver");
+    ws = new WebSocket("ws://localhost:3000/gameserver");
 
     ws.onopen = function () {
         ws.send("Hi, from the client."); // this works
@@ -49,12 +50,22 @@ function startSocket() {
     };
 
     ws.onmessage = function (event) {
-        type(event.data + "\n");
+        if (event.data.trim().split("|")[0] == "mu"){
+            audio.pause();
+            audio.src=event.data.trim().split("|")[1]+".mp3";
+            audio.currentTime=0;
+            audio.play();
+        }
+        else if (event.data.trim() == "CLOSE") {
+            ws.close();
+            gamefield.innerHTML+="<br /><p style=\"color:red\">The server hanged up</p>";
+        }
+        else {
+            type(event.data + "\n");
+        }
     };
 
-    ws.onclose = function () {
-        console.log("Connection closed...");
-    };
+
 }
 document.addEventListener('keydown', function pressed(key) {
     if (first) {
