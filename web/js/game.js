@@ -50,15 +50,26 @@ function startSocket() {
     };
 
     ws.onmessage = function (event) {
-        if (event.data.trim().split("|")[0] == "mu"){
+        let splitMu = event.data.trim().split("mu|");
+        var reconstructedText = "";
+        if (splitMu.length > 1) {
+            if (!event.data.trim().startsWith("mu|")) reconstructedText += splitMu[0];
+            let lastD = "";
+            splitMu.forEach(pCommand => {
+                let dcomm = pCommand.split("|um")[0];
+                if (dcomm.length) lastD = dcomm;
+                if (pCommand.split("|um")[1]) reconstructedText += pCommand.split("|um")[1];
+            });
+            type(reconstructedText+"\n");
             audio.pause();
-            audio.src=event.data.trim().split("|")[1]+".mp3";
-            audio.currentTime=0;
+            audio.src = lastD + ".mp3";
+            audio.currentTime = 0;
+            audio.looping = 0;
             audio.play();
         }
         else if (event.data.trim() == "CLOSE") {
             ws.close();
-            gamefield.innerHTML+="<br /><p style=\"color:red\">The server hanged up</p>";
+            gamefield.innerHTML += "<br /><p style=\"color:red\">The server hanged up</p>";
         }
         else {
             type(event.data + "\n");
