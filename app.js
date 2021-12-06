@@ -20,7 +20,7 @@ enableWs(app)
 
 app.ws('/gameserver', (ws, req) => {
     socketsList.push(ws);
-    var bat = spawn('./gameC/game',["aaa"]);
+    var bat = spawn('./gameC/game', ["aaa"]);
     ws.on('message', msg => {
         console.log(msg);
         bat.stdin.write(msg + "\n");
@@ -44,6 +44,15 @@ app.ws('/gameserver', (ws, req) => {
     })
 })
 
+app.get('/gamedata', (req, res) => {
+    let proc = spawn('./gameC/jsonGameObj');
+    res.set('Content-Type', 'application/json');
+    proc.stdout.on('data', (data) => {
+        res.send(data.toString('utf-8'));
+    });
+})
+
 app.use('/', express.static('web'));
+
 
 const server = app.listen(3000);

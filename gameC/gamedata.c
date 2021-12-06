@@ -6,7 +6,7 @@
 typedef struct Item
 {
     int ID;
-    char name[20];
+    char name[50];
     char desc[100];
     int healtheffect;
 
