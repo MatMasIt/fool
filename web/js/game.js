@@ -40,13 +40,21 @@ function type(text) {
     else writebuffer += text;
 }
 var ws;
+var bi = new BootIntent();
 function startSocket() {
     gamefield.innerHTML = "";
     ws = new WebSocket("ws://localhost:3000/gameserver");
 
     ws.onopen = function () {
-        ws.send("Hi, from the client."); // this works
-
+        let o = bi.load();
+        switch (o["action"]) {
+            case "signup":
+                ws.send(o["action"] + "|" + o["email"].replace("|", "-") + "|" + o["username"].replace("|", "-") + "|" + o["password"].replace("|", "-"));
+                break;
+            case "signin":
+                ws.send(o["action"] + "|" + o["email"].replace("|", "-") + "|N|" + o["password"].replace("|", "-"));
+                break;
+        }
     };
 
     ws.onmessage = function (event) {
@@ -60,7 +68,7 @@ function startSocket() {
                 if (dcomm.length) lastD = dcomm;
                 if (pCommand.split("|um")[1]) reconstructedText += pCommand.split("|um")[1];
             });
-            type(reconstructedText+"\n");
+            type(reconstructedText + "\n");
             audio.pause();
             audio.src = lastD + ".mp3";
             audio.currentTime = 0;
@@ -98,6 +106,4 @@ document.addEventListener('keydown', function pressed(key) {
     rows[rows.length - 1] = '<span class="userinput">' + rows[rows.length - 1] + '</span>';
     gamefield.innerHTML = rows.join("<br/>");
 });
-
-
 

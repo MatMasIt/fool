@@ -1,5 +1,10 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <time.h>
+#define E_EMAILUSED 0
+#define E_USERUSER 1
+#define E_TOKENERR 0
+#define TOKEN int
 typedef struct ItemSave
 {
     int ID;
@@ -16,36 +21,116 @@ typedef struct SaveSlot
     int itemsL;
 } SaveSlot;
 
-typedef struct SaveFile
+typedef struct User
 {
     char username[30];
     char email[50];
+    char password[50];
     SaveSlot saveslots[3];
     int saveslotsN;
     int initialized;
+    int token;
+    int empty;
+    int creationTime;
+} User;
 
-} SaveFile;
-
-SaveFile loadSaveFile(char *uid)
+typedef struct UserSave
 {
-    char filepath[100];
-    FILE *fp;
-    strcat(filepath, "playerfiles/");
-    strcat(filepath, uid);
-    strcat(filepath, ".obj");
-    SaveFile s;
-    s.initialized = 0;
-    if (access(filepath, F_OK) == 0)
+    User userList[100];
+    int userN;
+} UserSave;
+
+UserSave loadList()
+{
+    FILE *f;
+    UserSave us;
+    f = fopen("ulist.obj", "rb");
+    if (f == NULL)
+        us.userN = 0;
+    fread(&us, sizeof(UserSave), 1, f);
+    fclose(f);
+    return us;
+}
+
+void saveList(UserSave us)
+{
+    FILE *f;
+    f = fopen("ulist.obj", "wb");
+    fwrite(&us, sizeof(UserSave), 1, f);
+    fclose(f);
+}
+
+User login(UserSave *us, char *email, char *password)
+{
+    for (int i = 0; i < (*us).userN; i++)
     {
-        if ((fp = fopen(uid, "rb")) == NULL)
-        {
-            return s;
-        }
-        fread(&s, sizeof(SaveFile), 1, fp);
-        return s;
+        if (strcmp((*us).userList[i].email, email) == 0 && strcmp((*us).userList[i].password, password))
+            return (*us).userList[i];
     }
-    else
+    User u;
+    u.empty = 1;
+    return u;
+}
+
+User signup(UserSave *us, char *email, char *username, char *password)
+{
+
+    User u;
+    if ((*us).userN > 100)
     {
-        return s;
+        u.empty = 1;
+        return u;
+    }
+    strcpy(u.email, email);
+    strcpy(u.username, username);
+    strcpy(u.password, password);
+    u.empty = 0;
+    u.initialized = 1;
+    u.creationTime = time(NULL);
+    (*us).userList[(*us).userN - 1] = u;
+    (*us).userN++;
+}
+
+TOKEN newToken(UserSave *us, int index)
+{
+
+    srand(time(NULL)); // Initialization, should only be called once.
+    int r, flag = 1;
+    while (flag)
+    {
+        r = rand();
+        flag = 0;
+        for (int i = 0; i < (*us).userN; i++)
+        {
+            if ((*us).userList[i].token == r)
+            {
+                flag = 1;
+                break;
+            }
+        }
+    }
+    (*us).userList[index].token = r;
+    return r;
+}
+
+User getFromToken(UserSave us, TOKEN t)
+{
+    User u;
+    for (int i = 0; i < us.userN; i++)
+    {
+        if (us.userList[i].token == t)
+            return us.userList[i];
+    }
+    u.empty = 1;
+    return u;
+}
+
+void saveFromToken(UserSave *us, User u)
+{
+    User u;
+    for (int i = 0; i < (*us).userN; i++)
+    {
+        if ((*us).userList[i].token == u.token)
+            (*us).userList[i] = u;
     }
 }

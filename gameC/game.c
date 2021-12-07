@@ -23,6 +23,18 @@ void print_news()
 }
 int main_menu_choice(char *uid)
 {
+    char *action;
+    char *email;
+    char *username;
+    char *password;
+    scanf("%s|%s|%s|%s", action, email, username, password);
+    if (strcmp(action, "signin"))
+    {
+        
+    }
+    else
+    {
+    }
     scanf("%*s");
     int ch = 0;
     while (ch < 1 || ch > 5)
@@ -37,22 +49,10 @@ int main_menu_choice(char *uid)
         if (ch < 1 || ch > 5)
             printf("??");
     }
-    SaveFile s;
     switch (ch)
     {
     case 1:
-        s = loadSaveFile(uid);
-        if (!s.initialized)
-        {
-            printf("New user");
-            musicTrack("amacord");
-            printf("Username:");
-            scanf("%s", s.username);
-            printf("\Email:");
-            scanf("%s", s.email);
-        }
         musicTrack("fi");
-        scanf("%s", s.email);
         break;
     case 3:
         print_news();
