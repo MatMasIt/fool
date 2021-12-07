@@ -33,7 +33,7 @@ function handleData(data) {
                     <p class="items">`;
                     r["items"].forEach(function item(i,index){
                         finalData+=`<b>Name</b> `+htmlEntities(i["name"])+`<br />
-                        <b>Description</b> `+htmlEntities(r["desc"])+`<br />`;
+                        <b>Description</b> `+htmlEntities(i["desc"])+`<br />`;
                         if(index!=(r["items"].length-1)) finalData+=`<hr />`;
 
                     });
