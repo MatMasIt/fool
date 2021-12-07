@@ -98,3 +98,6 @@ document.addEventListener('keydown', function pressed(key) {
     rows[rows.length - 1] = '<span class="userinput">' + rows[rows.length - 1] + '</span>';
     gamefield.innerHTML = rows.join("<br/>");
 });
+
+
+

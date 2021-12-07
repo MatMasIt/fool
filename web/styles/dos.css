@@ -155,29 +155,6 @@ input[type="submit"]:after {
     content: " >";
 }
 
-button:active,
-a.button:active,
-input[type="button"]:active,
-input[type="submit"]:active {
-    margin: 3px 0 0 3px;
-    box-shadow: 1px 1px 0px #000;
-}
-
-button.positive,
-a.button.positive,
-input[type="button"].positive,
-input[type="submit"].positive {
-    background-color: limegreen;
-}
-
-button.negative,
-a.button.negative,
-input[type="button"].negative,
-input[type="submit"].negative {
-    background-color: darkred;
-    color: white;
-}
-
 button.primary,
 a.button.primary,
 input[type="button"].primary,
