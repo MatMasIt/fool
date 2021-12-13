@@ -22,12 +22,12 @@ int main_menu_graph()
     printf("╚════════╩══════════════════╝\n");
 }
 
-int savegame_menu_graph(SaveFile savefile)
+int savegame_menu_graph(User user)
 {
 
     printf("\nSelect Savegame\n");
-    for (int i = 0; i < savefile.saveslotsN; i++)
+    for (int i = 0; i < user.saveslotsN; i++)
     {
-        printf("\n%d) %s\n", i + 1, savefile.saveslots[i].slotName);
+        printf("\n%d) %s\n", i + 1, user.saveslots[i].slotName);
     }
 }

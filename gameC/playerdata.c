@@ -127,7 +127,6 @@ User getFromToken(UserSave us, TOKEN t)
 
 void saveFromToken(UserSave *us, User u)
 {
-    User u;
     for (int i = 0; i < (*us).userN; i++)
     {
         if ((*us).userList[i].token == u.token)

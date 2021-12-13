@@ -3,6 +3,7 @@
 #include "playerdata.c"
 #include "graphics.c"
 #include <stdlib.h>
+UserSave us;
 void musicTrack(char *name)
 {
     printf("mu|%s|um", name);
@@ -28,9 +29,14 @@ int main_menu_choice(char *uid)
     char *username;
     char *password;
     scanf("%s|%s|%s|%s", action, email, username, password);
+    User u;
     if (strcmp(action, "signin"))
     {
-        
+        u = login(&us, email, password);
+        if (u.empty)
+        {
+            printf("Login error");
+        }
     }
     else
     {
@@ -65,6 +71,7 @@ int main_menu_choice(char *uid)
 int main(int argc, char *argv[])
 {
 
+    us = loadList();
     setvbuf(stdout, NULL, _IONBF, 0);
     logo();
     main_menu_graph();

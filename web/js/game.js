@@ -1,3 +1,5 @@
+var bi = new BootIntent();
+if (!bi.load()) location.href = ".";
 var writebuffer = "";
 var delay = 10;
 var audio = new Audio('old.mp3');
