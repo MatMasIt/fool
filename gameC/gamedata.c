@@ -45,6 +45,7 @@ typedef struct World
 typedef struct GameFile
 {
     int uid;
+    int creationTime;
     World worlds[10];
     int worldsN;
 

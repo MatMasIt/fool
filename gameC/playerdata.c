@@ -1,6 +1,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
+#include <stdlib.h>
 #define E_EMAILUSED 0
 #define E_USERUSER 1
 #define E_TOKENERR 0
@@ -16,7 +18,7 @@ typedef struct SaveSlot
 {
     int worldID;
     int roomID;
-    char slotName[10];
+    char slotName[20];
     ItemSave items[10];
     int itemsL;
 } SaveSlot;
@@ -44,7 +46,7 @@ UserSave loadList()
 {
     FILE *f;
     UserSave us;
-    f = fopen("ulist.obj", "rb");
+    f = fopen("./gameC/ulist.obj", "rb");
     if (f == NULL)
         us.userN = 0;
     fread(&us, sizeof(UserSave), 1, f);
@@ -55,7 +57,7 @@ UserSave loadList()
 void saveList(UserSave us)
 {
     FILE *f;
-    f = fopen("ulist.obj", "wb");
+    f = fopen("./gameC/ulist.obj", "wb");
     fwrite(&us, sizeof(UserSave), 1, f);
     fclose(f);
 }

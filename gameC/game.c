@@ -22,12 +22,12 @@ void print_news()
 
     fclose(f);
 }
-int main_menu_choice(char *uid)
+int main_menu_choice()
 {
-    char *action;
-    char *email;
-    char *username;
-    char *password;
+    char action[10];
+    char email[40];
+    char username[50];
+    char password[20];
     scanf("%s|%s|%s|%s", action, email, username, password);
     User u;
     if (strcmp(action, "signin"))
@@ -36,10 +36,16 @@ int main_menu_choice(char *uid)
         if (u.empty)
         {
             printf("Login error");
+            exit(0);
+        }
+        else
+        {
+            printf("Welcome, %s", u.username);
         }
     }
     else
     {
+        printf("Signing up");
     }
     scanf("%*s");
     int ch = 0;
@@ -64,16 +70,16 @@ int main_menu_choice(char *uid)
         print_news();
         break;
     case 5:
-        exit(1);
+        exit(0);
         break;
     }
 }
 int main(int argc, char *argv[])
 {
 
-    us = loadList();
     setvbuf(stdout, NULL, _IONBF, 0);
+    us = loadList();
     logo();
     main_menu_graph();
-    main_menu_choice(argv[0]);
+    main_menu_choice();
 }

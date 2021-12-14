@@ -1,6 +1,7 @@
 #include "gamedata.c"
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>   
 #include <stdio.h>
 int main()
 {
@@ -85,8 +86,8 @@ int main()
     gf.uid = 1;
     gf.worldsN = 1;
     gf.worlds[0] = w;
-
-    if ((fp = fopen("gamefile.obj", "wb")) == NULL)
+    gf.creationTime = time(NULL);
+    if ((fp = fopen("./gameC/gamefile.obj", "wb")) == NULL)
     {
         printf("Could noy open file");
         exit(1);
