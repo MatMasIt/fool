@@ -52,6 +52,13 @@ app.get('/gamedata', (req, res) => {
     });
 })
 
+app.get('/playerdata', (req, res) => {
+    let proc = spawn('./gameC/jsonPlayersObj');
+    res.set('Content-Type', 'application/json');
+    proc.stdout.on('data', (data) => {
+        res.send(data.toString('utf-8'));
+    });
+})
 app.use('/', express.static('web'));
 
 
