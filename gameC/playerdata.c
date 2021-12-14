@@ -66,7 +66,7 @@ User login(UserSave *us, char *email, char *password)
 {
     for (int i = 0; i < (*us).userN; i++)
     {
-        if (strcmp((*us).userList[i].email, email) == 0 && strcmp((*us).userList[i].password, password))
+        if (strcmp((*us).userList[i].email, email) == 0 && strcmp((*us).userList[i].password, password) == 0)
             return (*us).userList[i];
     }
     User u;
