@@ -90,7 +90,7 @@ int main()
     if ((fp = fopen("./gameC/gamefile.obj", "wb")) == NULL)
     {
         printf("Could noy open file");
-        exit(1);
+       exit(0);
     }
 
     fwrite(&gf, sizeof(gf), 1, fp);

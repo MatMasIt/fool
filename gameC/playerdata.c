@@ -3,9 +3,13 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
-#define E_EMAILUSED 0
-#define E_USERUSER 1
-#define E_TOKENERR 0
+typedef enum authErrors
+{
+    E_EMAILUSED,
+    E_USERUSED,
+    E_TOKENERR
+} authError;
+
 #define TOKEN int
 typedef struct ItemSave
 {
@@ -64,12 +68,13 @@ void saveList(UserSave us)
 
 User login(UserSave *us, char *email, char *password)
 {
-    //TODO make login work
-    printf("KKKK%s-%s", email, password);
+
     for (int i = 0; i < (*us).userN; i++)
     {
         if (strcmp((*us).userList[i].email, email) == 0 && strcmp((*us).userList[i].password, password) == 0)
+        {
             return (*us).userList[i];
+        }
     }
     User u;
     u.empty = 1;
@@ -135,5 +140,23 @@ void saveFromToken(UserSave *us, User u)
     {
         if ((*us).userList[i].token == u.token)
             (*us).userList[i] = u;
+    }
+}
+
+World getWorldById(GameFile f, int ID)
+{
+    for (int i = 0; i < f.worldsN; i++)
+    {
+        if (f.worlds[i].ID == ID)
+            return f.worlds[i];
+    }
+}
+
+Room getRoom(World w, int ID)
+{
+    for (int i = 0; i < w.roomsN; i++)
+    {
+        if (w.rooms[i].ID == ID)
+            return w.rooms[i];
     }
 }
