@@ -28,9 +28,10 @@ int main_menu_choice()
     char email[40];
     char username[50];
     char password[20];
-    scanf("%s|%s|%s|%s", action, email, username, password);
+    scanf("%[^|]|%[^|]|%[^|]|%[^\n]", action, email, username, password);
+    printf("Action: %s\nEmail: %s\nUsername:%s\nPassword:%s\n", action, email, username, password);
     User u;
-    if (strcmp(action, "signin"))
+    if (strcmp(action, "signin")==0)
     {
         u = login(&us, email, password);
         if (u.empty)

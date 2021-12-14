@@ -64,6 +64,8 @@ void saveList(UserSave us)
 
 User login(UserSave *us, char *email, char *password)
 {
+    //TODO make login work
+    printf("KKKK%s-%s", email, password);
     for (int i = 0; i < (*us).userN; i++)
     {
         if (strcmp((*us).userList[i].email, email) == 0 && strcmp((*us).userList[i].password, password) == 0)

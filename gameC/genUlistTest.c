@@ -13,7 +13,7 @@ int main()
     u.initialized = 1;
     strcpy(u.password, "test");
     u.token = 1010;
-    strcpy(u.username, "username");
+    strcpy(u.username, "mattia");
     strcpy(u.email, "m2.mascarello@liceococito.it");
     u.saveslotsN = 1;
     SaveSlot s;
