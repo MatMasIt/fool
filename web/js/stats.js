@@ -77,4 +77,33 @@ function handleData(data) {
     });
     document.getElementById("gamesdisplay").innerHTML = finalData;
 }
+//creazione player
+function handlePlayer(data) {
+    var finalData = ``;
+    data["users"].forEach(function user(u) {
+        finalData += `
+        <div class="">
+        <h3>`+ htmlEntities(u["username"]) + `</h3>
+        <i>`+ htmlEntities(u["email"]) + `</i>
+        <div class="SaveSlots">`;
+
+        u["saveslots"].forEach(function SaveSlot(s) {
+            finalData += `
+            <div class="SaveSlot box">
+                <h3>`+htmlEntities(s["slotName"])+`</h3>
+                <div class="box-body">
+                    <h4>Items</h4>
+                    <p class="items">`;
+                    s["items"].forEach(function item(i,index){
+                        //empty
+                        if(index!=(r["items"].length-1)) finalData+=`<hr />`;
+                    });
+                    finalData+=`</p>
+                    </div>
+                 </div>`;
+        });
+        finalData += `</div></div>`;
+    });
+    document.getElementById("playersdisplay").innerHTML = finalData;
+}
 
