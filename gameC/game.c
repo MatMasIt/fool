@@ -1,11 +1,11 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "utils.c"
 #include "gamedata.c"
 #include "playerdata.c"
-#include "graphics.c"
-#include "utils.c"
-#include <stdlib.h>
 #include "menuchoices.c"
+#include "graphics.c"
 
 UserSave us;
 
@@ -37,25 +37,44 @@ int intentLauncher()
         printf("Signing up");
     }
     int ch = 0;
-    while (ch < 1 || ch > 5)
+    ch = choicher(1, 5);
+    FILE *fp;
+    GameFile gf;
+    if ((fp = fopen("./gameC/gamefile.obj", "rb")) == NULL)
     {
-        while (scanf("%d", &ch) != 1)
-        {
-            // Tell the user that the entry was invalid
-            printf("??");
-            // Asterisk * tells scanf to read and ignore the value
-            scanf("%*s");
-        }
-        if (ch < 1 || ch > 5)
-            printf("??");
+        printf("Could not open file");
+        exit(1);
     }
+
+    fread(&gf, sizeof(gf), 1, fp);
+    fclose(fp);
     switch (ch - 1)
     {
     case LOCALPLAY:
         printf("::Local Play::");
         musicTrack("amacord");
-        savegame_menu_graph(u);
-        scanf("%d");
+        int looping = 0;
+        int c;
+        do
+        {
+            savegame_menu_graph(u);
+            c = choicher(1, 3);
+            if (c > u.saveslotsN)
+            {
+                if (setSaveFile(gf, &u, c - 1))
+                {
+                    looping = 1;
+                }
+                else
+                {
+                    looping = 0;
+                }
+            }
+            else
+            {
+                gameLoop(u, gf, c - 1);
+            }
+        } while (looping);
         break;
     case READNEWS:
         print_news();

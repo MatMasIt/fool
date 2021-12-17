@@ -5,7 +5,7 @@ var delay = 10;
 var audio = new Audio('old.mp3');
 audio.loop = true;
 function okPrint(k) {
-    return "ABCDEFGHIJLKMNOPQESTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'ì!\"£$%&/()=?èéà°°#*€@".split("").indexOf(k) != -1;
+    return "ABCDEFGHIJLKMNOPQRESTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'ì!\"£$%&/()=?èéà°°#*€@.".split("").indexOf(k) != -1;
 }
 
 if (!String.prototype.replaceAll) {

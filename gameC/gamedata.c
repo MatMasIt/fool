@@ -50,3 +50,33 @@ typedef struct GameFile
     int worldsN;
 
 } GameFile;
+
+World getWorldById(GameFile f, int ID)
+{
+    for (int i = 0; i < f.worldsN; i++)
+    {
+        if (f.worlds[i].ID == ID)
+            return f.worlds[i];
+    }
+}
+
+Room getRoom(World w, int ID)
+{
+    for (int i = 0; i < w.roomsN; i++)
+    {
+        if (w.rooms[i].ID == ID)
+            return w.rooms[i];
+    }
+}
+
+Item getItemById(World w, int ID)
+{
+    for (int i = 0; i < w.roomsN; i++)
+    {
+        for (int j = 0; j < w.rooms[i].itemsN; i++)
+        {
+            if (w.rooms[i].items[j].ID == ID)
+                return w.rooms[i].items[j];
+        }
+    }
+}

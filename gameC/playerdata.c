@@ -66,17 +66,40 @@ void saveList(UserSave us)
     fclose(f);
 }
 
-User login(UserSave *us, char *email, char *password)
+TOKEN newToken(UserSave *us, int index)
 {
 
+    srand(time(NULL)); // Initialization, should only be called once.
+    int r, flag = 1;
+    while (flag)
+    {
+        r = rand();
+        flag = 0;
+        for (int i = 0; i < (*us).userN; i++)
+        {
+            if ((*us).userList[i].token == r)
+            {
+                flag = 1;
+                break;
+            }
+        }
+    }
+    (*us).userList[index].token = r;
+    return r;
+}
+User login(UserSave *us, char *email, char *password)
+{
+    User u;
     for (int i = 0; i < (*us).userN; i++)
     {
         if (strcmp((*us).userList[i].email, email) == 0 && strcmp((*us).userList[i].password, password) == 0)
         {
-            return (*us).userList[i];
+            u = (*us).userList[i];
+            u.token = newToken(us, i);
+            saveList(*us);
+            return u;
         }
     }
-    User u;
     u.empty = 1;
     return u;
 }
@@ -100,27 +123,6 @@ User signup(UserSave *us, char *email, char *username, char *password)
     (*us).userN++;
 }
 
-TOKEN newToken(UserSave *us, int index)
-{
-
-    srand(time(NULL)); // Initialization, should only be called once.
-    int r, flag = 1;
-    while (flag)
-    {
-        r = rand();
-        flag = 0;
-        for (int i = 0; i < (*us).userN; i++)
-        {
-            if ((*us).userList[i].token == r)
-            {
-                flag = 1;
-                break;
-            }
-        }
-    }
-    (*us).userList[index].token = r;
-    return r;
-}
 
 User getFromToken(UserSave us, TOKEN t)
 {
@@ -134,29 +136,13 @@ User getFromToken(UserSave us, TOKEN t)
     return u;
 }
 
-void saveFromToken(UserSave *us, User u)
+void saveUser(User u)
 {
-    for (int i = 0; i < (*us).userN; i++)
+    UserSave us = loadList();
+    for (int i = 0; i < us.userN; i++)
     {
-        if ((*us).userList[i].token == u.token)
-            (*us).userList[i] = u;
+        if (us.userList[i].token == u.token)
+            us.userList[i] = u;
     }
-}
-
-World getWorldById(GameFile f, int ID)
-{
-    for (int i = 0; i < f.worldsN; i++)
-    {
-        if (f.worlds[i].ID == ID)
-            return f.worlds[i];
-    }
-}
-
-Room getRoom(World w, int ID)
-{
-    for (int i = 0; i < w.roomsN; i++)
-    {
-        if (w.rooms[i].ID == ID)
-            return w.rooms[i];
-    }
+    saveList(us);
 }
