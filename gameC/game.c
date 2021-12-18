@@ -29,15 +29,19 @@ int intentLauncher()
         else
         {
             printf("\n<Welcome, %s>\n", u.username);
-            main_menu_graph();
         }
     }
     else
     {
-        printf("Signing up");
+        printf("Signing up\n");
+        u = signup(&us, email, username, password);
+        if (u.empty)
+        {
+            printf("Signup error");
+            closeG();
+        }
     }
     int ch = 0;
-    ch = choicher(1, 5);
     FILE *fp;
     GameFile gf;
     if ((fp = fopen("./gameC/gamefile.obj", "rb")) == NULL)
@@ -48,40 +52,57 @@ int intentLauncher()
 
     fread(&gf, sizeof(gf), 1, fp);
     fclose(fp);
-    switch (ch - 1)
+    int mainLoopOn = 1;
+    while (mainLoopOn)
     {
-    case LOCALPLAY:
-        printf("::Local Play::");
-        musicTrack("amacord");
-        int looping = 0;
-        int c;
-        do
+        main_menu_graph();
+        ch = choicher(1, 5);
+        switch (ch - 1)
         {
-            savegame_menu_graph(u);
-            c = choicher(1, 3);
-            if (c > u.saveslotsN)
+        case PLAY:
+            printf("::Play::");
+            int c;
+            do
             {
-                if (setSaveFile(gf, &u, c - 1))
+
+                musicTrack("amacord");
+                savegame_menu_graph(u);
+                c = choicher(0, 3);
+                if (c == 0)
+                    break;
+                if (c > u.saveslotsN)
                 {
-                    looping = 1;
+                    setSaveFile(gf, &u, c - 1);
                 }
                 else
                 {
-                    looping = 0;
+                    gameLoop(u, gf, c - 1);
                 }
-            }
-            else
+            } while (1);
+            break;
+
+        case CREDITS:
+            printf("\n(C) 2021, Mattia Mascarello & Giacomo Roggero\n");
+            break;
+        case NEWS:
+            print_news();
+            break;
+        case LOGOUT:
+            printf("LOGOUT");
+            exit(0);
+            break;
+        case DELETE:
+            printf("Are you sure? [0/1]");
+            int dc = choicher(0, 1);
+            if (dc)
             {
-                gameLoop(u, gf, c - 1);
+                deleteUser(u);
+                printf("\nOK!\n");
+                printf("LOGOUT");
+                exit(0);
             }
-        } while (looping);
-        break;
-    case READNEWS:
-        print_news();
-        break;
-    case 5:
-        closeG();
-        break;
+            break;
+        }
     }
 }
 int main(int argc, char *argv[])

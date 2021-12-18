@@ -76,10 +76,12 @@ function startSocket() {
             audio.currentTime = 0;
             audio.looping = 0;
             audio.play();
+        }else if (event.data.trim() == "LOGOUT") {
+            bi.destroy();
         }
         else if (event.data.trim() == "CLOSE") {
             ws.close();
-            gamefield.innerHTML += "<br /><p style=\"color:red\">The server hanged up</p>";
+            gamefield.innerHTML += "<br /><p style=\"color:red\">The server hanged up</p><br /><a href=\".\">Back</a>";
         }
         else {
             type(event.data + "\n");

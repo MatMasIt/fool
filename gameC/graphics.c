@@ -22,16 +22,15 @@ int main_menu_graph()
     printf("║      1  ║ Play               ║\n");
     printf("║      2  ║ Credits            ║\n");
     printf("║      3  ║ Read recent news   ║\n");
-    printf("║      4  ║ Settings           ║\n");
-    printf("║      5  ║ Logout             ║\n");
-    printf("║      6  ║ Delete             ║\n");
+    printf("║      4  ║ Logout             ║\n");
+    printf("║      5  ║ Delete             ║\n");
     printf("╚════════╩══════════════════╝\n");
 }
 
 int savegame_menu_graph(User user)
 {
 
-    printf("\nSelect Savegame\n");
+    printf("\nSelect Savegame (0 to quit)\n");
     for (int i = 0; i < 3; i++)
     {
         if (i < user.saveslotsN)
@@ -135,18 +134,23 @@ int gameLoop(User u, GameFile gf, int selectedsss)
                     ic = r.items[np - 1];
                     is.ID = ic.ID;
                     is.quantity = 1;
+                    int alSet = 0;
                     for (int i = 0; i < s.itemsL; i++)
                     {
                         if (s.items[i].ID == ic.ID)
                         {
                             printf("\nYou already have this, incrementing\n");
                             s.items[i].quantity++;
+                            alSet = 1;
                             break;
                         }
                     }
-                    printf("\nAdded to inventary\n");
-                    s.items[s.itemsL - 1] = is;
-                    s.itemsL++;
+                    if (!alSet)
+                    {
+                        printf("\nAdded to inventary\n");
+                        s.itemsL++;
+                        s.items[s.itemsL - 1] = is;
+                    }
                 }
             }
         }
@@ -188,6 +192,9 @@ int gameLoop(User u, GameFile gf, int selectedsss)
                 }
             }
         }
+        s.roomID = r.ID;
+        s.worldID = w.ID;
+        u.saveslots[selectedsss] = s;
         saveUser(u);
     } while (prefix("QUIT", command) == 0);
 }
@@ -206,10 +213,7 @@ int setSaveFile(GameFile gf, User *u, int i)
     }
     int c;
     c = choicher(0, gf.worldsN);
-    if (!c)
-        return 1;
     (*u).saveslots[i].worldID = gf.worlds[c - 1].ID;
     (*u).saveslots[i].roomID = 1;
     saveUser(*u);
-    return 0;
 }

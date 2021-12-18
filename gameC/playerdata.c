@@ -96,6 +96,7 @@ User login(UserSave *us, char *email, char *password)
         {
             u = (*us).userList[i];
             u.token = newToken(us, i);
+            (*us).userList[i] = u;
             saveList(*us);
             return u;
         }
@@ -113,16 +114,31 @@ User signup(UserSave *us, char *email, char *username, char *password)
         u.empty = 1;
         return u;
     }
+    for (int i = 0; i < (*us).userN; i++)
+    {
+        if (strcmp(email, (*us).userList[i].email) == 0)
+        {
+            printf("\nEmail is already used\nLOGOUT");
+            closeG();
+        }
+        if (strcmp(username, (*us).userList[i].username))
+        {
+
+            printf("\nUsername is already used\nLOGOUT");
+            closeG();
+        }
+    }
     strcpy(u.email, email);
     strcpy(u.username, username);
     strcpy(u.password, password);
     u.empty = 0;
     u.initialized = 1;
     u.creationTime = time(NULL);
-    (*us).userList[(*us).userN - 1] = u;
     (*us).userN++;
+    (*us).userList[(*us).userN - 1] = u;
+    saveList((*us));
+    return u;
 }
-
 
 User getFromToken(UserSave us, TOKEN t)
 {
@@ -143,6 +159,20 @@ void saveUser(User u)
     {
         if (us.userList[i].token == u.token)
             us.userList[i] = u;
+    }
+    saveList(us);
+}
+
+void deleteUser(User u)
+{
+    UserSave us = loadList();
+    for (int i = 0; i < us.userN; i++)
+    {
+        if (us.userList[i].token == u.token)
+        {
+            us.userList[i] = us.userList[us.userN - 1];
+            us.userN--;
+        }
     }
     saveList(us);
 }

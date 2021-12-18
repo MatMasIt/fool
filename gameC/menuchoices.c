@@ -1,9 +1,8 @@
 typedef enum MainMenuAction
 {
-    LOCALPLAY,
-    ONLINEPLAY,
-    READNEWS,
-    SETTINGS,
+    PLAY,
+    CREDITS,
+    NEWS,
     LOGOUT,
     DELETE
 } MainMenuAction;

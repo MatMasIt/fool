@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include "utils.c"
 #include "playerdata.c"
 #include "commonjson.c"
 int main()

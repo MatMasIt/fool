@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 void musicTrack(char *name)
 {
@@ -10,6 +9,7 @@ void print_news()
     char c;
     f = fopen("log.txt", "r");
     c = fgetc(f);
+    printf("\n------\n");
     while (c != EOF)
     {
         printf("%c", c);
@@ -17,8 +17,10 @@ void print_news()
     }
 
     fclose(f);
+    printf("\n------\n");
 }
-void closeG(){
+void closeG()
+{
     printf("\nCLOSE\n");
     exit(0);
 }
