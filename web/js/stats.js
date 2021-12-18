@@ -110,12 +110,13 @@ function handlePlayers(data) {
         <div class="SaveSlots">`;
 
         u["saveSlots"].forEach(function SaveSlot(s, i) {
+            console.log(s);
             finalData += `
             <div class="SaveSlot box">
                 <i>Slot <b>`+ (i + 1) + `</b></i>
                 <h3>`+ htmlEntities(s["slotName"]) + `</h3>
                 <div class="box-body">
-                Last Seen in <i>`+ htmlEntities(roomsMap[s["roomId"]]["rooms"][s["worldId"]]["name"]) + `</i>
+                Last Seen in <i>`+ htmlEntities(roomsMap[s["worldId"]]["rooms"][s["roomId"]]["name"]) + `</i>
                     <h4>Items</h4>
                     <p class="items">`;
             s["items"].forEach(function item(i, index) {
