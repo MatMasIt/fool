@@ -1,3 +1,15 @@
+/**
+ * @file playerdata.c
+ * @author Mattia Mascarello (MatMasIt)
+ * @brief Contains player data structures and related functions
+ * Contains player data structures and functions for handling
+ * login, signup, deletion, etc
+ * @version 1.0
+ * @date 2021-12-21
+ *
+ * @copyright MIT LICENSE 2021
+ * 
+ */
 #include <unistd.h>
 #include <stdio.h>
 #include <time.h>

@@ -1,8 +1,30 @@
+/** @file graphics.c
+ *  @brief Main game graphical components
+ *  This contains the main game ciews as well as the core menu
+ *  and banner utils
+ *
+ *  @author Mattia Mascarello (MatMasIt)
+ *  @version 1.0
+ *  @date 2021-12-21
+ *
+ * @copyright MIT LICENSE 2021
+ */
+
+/**
+ * @brief Does string start with prefix
+ * 
+ * @param pre prefix
+ * @param str string
+ * @return int 1 ore 0 (true or false)
+ */
 int prefix(const char *pre, const char *str)
 {
     return strncmp(pre, str, strlen(pre)) == 0;
 }
-
+/**
+ * @brief print logo
+ * 
+ */
 void logo()
 {
     printf("  █████▒▒█████   ▒█████   ██▓    \n");
@@ -12,6 +34,11 @@ void logo()
     printf("░▒█░   ░ ████▓▒░░ ████▓▒░░██████▒\n");
     printf("Mattia Mascarello, Giacomo Roggero \n             v. 1.0 \n 2021   \n");
 }
+/**
+ * @brief print main menu
+ * 
+ * @return int 
+ */
 int main_menu_graph()
 {
     printf("╔═══════════════════════════╗\n");
@@ -26,7 +53,12 @@ int main_menu_graph()
     printf("║      5  ║ Delete             ║\n");
     printf("╚════════╩══════════════════╝\n");
 }
-
+/**
+ * @brief print saveslots menu
+ * 
+ * @param user the user
+ * @return int 
+ */
 int savegame_menu_graph(User user)
 {
 
@@ -39,6 +71,13 @@ int savegame_menu_graph(User user)
             printf("\n%d) EMPTY\n", i + 1);
     }
 }
+/**
+ * @brief Print inventary
+ * 
+ * @param s Current Saveslot
+ * @param w Current world
+ * @return int 
+ */
 int inventaryDisplay(SaveSlot s, World w)
 {
     Item it;
