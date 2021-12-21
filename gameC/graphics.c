@@ -96,10 +96,10 @@ int gameLoop(User u, GameFile gf, int selectedsss)
     Room r = getRoom(w, s.roomID);
     musicTrack(r.musicFile);
     printf("<----------->\nWorld %d: %s - %s\n%s\n%s\n", w.ID, w.name, w.desc, r.name, r.desc);
-
     char command[20];
     do
     {
+        s.lastUsed = time(NULL);
         fgets(command, 20, stdin);
         if (prefix("POCKET", command) == 1)
         {

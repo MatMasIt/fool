@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>   
+#include <time.h>
 #include "playerdata.c"
 int main()
 {
@@ -21,6 +21,7 @@ int main()
     s.worldID = 1;
     s.roomID = 1;
     s.itemsL = 1;
+    s.lastUsed = time(NULL);
     stpcpy(s.slotName, "A test slot");
     strcpy(s.slotName, "A good world");
     ItemSave is;

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Dec 18 11:19:14 2021
+# Make data base, printed on Tue Dec 21 11:10:12 2021
 
 # Variables
 
@@ -49,7 +49,7 @@ GNUMAKEFLAGS :=
 # environment
 MAKELEVEL := 0
 # environment
-XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_DATA_DIRS = /home/mattia/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
@@ -67,7 +67,7 @@ PATH = /home/mattia/.local/bin:/opt/devkitpro/tools/bin:/home/mattia/.cargo/bin:
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/regolite:@/tmp/.ICE-unix/5281,unix/regolite:/tmp/.ICE-unix/5281
+SESSION_MANAGER = local/regolite:@/tmp/.ICE-unix/3158,unix/regolite:/tmp/.ICE-unix/3158
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # default
@@ -87,7 +87,7 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 5526
+GIO_LAUNCHED_DESKTOP_FILE_PID = 3423
 # automatic
 %F = $(notdir $%)
 # environment
@@ -99,7 +99,7 @@ PWD = /home/mattia/fool
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 5338
+SSH_AGENT_PID = 3215
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = Regolith:GNOME-Flashback:GNOME
 # environment
@@ -139,7 +139,7 @@ DEVKITARM = /opt/devkitpro/devkitARM
 # environment
 SHLVL = 1
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-5e8c2ee9-1f3b-4495-a974-db5b265eb66f.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-df80ff3b-49b3-43f7-825b-4f2b09f44e48.sock
 # environment
 COMPIZ_CONFIG_PROFILE = gnome-flashback
 # default
@@ -157,7 +157,7 @@ XDG_CURRENT_DESKTOP = Regolith:GNOME-Flashback:GNOME
 # environment
 LC_TELEPHONE = it_IT.UTF-8
 # environment
-I3SOCK = /run/user/1000/i3/ipc-socket.5593
+I3SOCK = /run/user/1000/i3/ipc-socket.3471
 # default
 MAKE_COMMAND := make
 # default
@@ -183,7 +183,7 @@ LC_PAPER = it_IT.UTF-8
 # environment
 QT_ACCESSIBILITY = 1
 # environment
-DESKTOP_AUTOSTART_ID = 10351f06a9da9c1ec4163982177446682100000052810016
+DESKTOP_AUTOSTART_ID = 10e758af26c46c9ac0164008095383081800000031580016
 # default
 MAKEFILES := 
 # environment
@@ -215,7 +215,7 @@ LANG = C
 # environment
 TERM = linux
 # environment
-VSCODE_PID = 47202
+VSCODE_PID = 4075
 # environment
 MOTD_SHOWN = pam
 # variable set hash-table stats:
@@ -275,12 +275,12 @@ all:
 #  recipe to execute (from 'Makefile', line 8):
 	make game
 
- 
 gameBuildTest:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 30):
+ 
 	gcc gameC/gameBuild.c -o gameC/gameBuild -g
 
 jsonGame:
@@ -377,6 +377,6 @@ jsonPlayers:
 # strcache performance: lookups = 46 / hit rate = 36%
 # hash-table stats:
 # Load=29/8192=0%, Rehash=0, Collisions=1/46=2%
-# Finished Make data base on Sat Dec 18 11:19:14 2021
+# Finished Make data base on Tue Dec 21 11:10:12 2021
 
  

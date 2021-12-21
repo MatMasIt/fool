@@ -20,6 +20,7 @@ typedef struct ItemSave
 
 typedef struct SaveSlot
 {
+    int lastUsed;
     int worldID;
     int roomID;
     char slotName[20];

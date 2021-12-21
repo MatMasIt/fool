@@ -1,3 +1,9 @@
+function cloneO(a) {
+    return JSON.parse(JSON.stringify(a));
+}
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 var bi = new BootIntent();
 if (!bi.load()) location.href = ".";
 var writebuffer = "";
@@ -76,7 +82,7 @@ function startSocket() {
             audio.currentTime = 0;
             audio.looping = 0;
             audio.play();
-        }else if (event.data.trim() == "LOGOUT") {
+        } else if (event.data.trim() == "LOGOUT") {
             bi.destroy();
         }
         else if (event.data.trim() == "CLOSE") {
@@ -111,3 +117,96 @@ document.addEventListener('keydown', function pressed(key) {
     gamefield.innerHTML = rows.join("<br/>");
 });
 
+function fetchGame() {
+
+    var gamedatafetcher = new XMLHttpRequest();
+    var url = "gamedata";
+    gamedatafetcher.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var gamefile = JSON.parse(this.responseText);
+            mapData(gamefile);
+        }
+    };
+    gamedatafetcher.open("GET", url, true);
+    gamedatafetcher.send();
+}
+
+function fetchUser() {
+    var userdatafetcher = new XMLHttpRequest();
+    var urlp = "playerdata";
+
+    userdatafetcher.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var gamefile = JSON.parse(this.responseText);
+            handlePlayers(gamefile);
+        }
+    };
+    userdatafetcher.open("GET", urlp, true);
+    userdatafetcher.send();
+}
+
+var itemsMap = {};
+var roomsMap = {};
+
+function mapData(data) {
+    data["worlds"].forEach(function world(w) {
+        roomsMap[w["ID"]] = cloneO(w);
+        roomsMap[w["ID"]]["rooms"] = {};
+        w["rooms"].forEach(function room(r) {
+            roomsMap[w["ID"]]["rooms"][r["ID"]] = r;
+            r["items"].forEach(function item(i, index) {
+                itemsMap[i["ID"]] = i;
+            });
+        });
+
+    });
+    fetchUser();
+}
+//player item box
+var username = "";
+var allUsersMostRecentSaveSlot = {};
+function handlePlayers(data) {
+    var finalData = ``;
+    data["users"].forEach(function user(u) {
+        u["saveSlots"].forEach(function SaveSlot(s, i) {
+            if (allUsersMostRecentSaveSlot[u["username"]] == undefined) allUsersMostRecentSaveSlot[u["username"]] = { "lastUsed": -1 };
+            if (allUsersMostRecentSaveSlot[u["username"]]["lastUsed"] < s["lastUsed"]) {
+                allUsersMostRecentSaveSlot[u["username"]] = s;
+            }
+
+        });
+        if (u["email"] == bi.load()["email"]) {
+            username = u["username"];
+        }
+    });
+    allUsersMostRecentSaveSlot[username]["items"].forEach(function item(i, index) {
+        if (itemsMap[i["id"]]["name"]) {
+            finalData += htmlEntities(itemsMap[i["id"]]["name"]);
+        }
+        else {
+            finalData += `????`;
+        }
+        finalData += " (x <b>" + i["quantity"] + "</b>)";
+        if (index != (allUsersMostRecentSaveSlot[username]["items"].length - 1)) finalData += `<hr />`;
+    });
+
+    document.getElementById("pocket").innerHTML = finalData;
+
+    Object.keys(allUsersMostRecentSaveSlot).forEach(function (ss) {
+        var uo = allUsersMostRecentSaveSlot[ss];
+        var myo = allUsersMostRecentSaveSlot[username];
+        var td = "<p><ul>";
+        if (myo["worldId"] == uo["worldId"] && myo["roomId"] == uo["roomId"]) {
+            td += "<li>" + ss + "</li>\n";
+        }
+        td += "</p>";
+        document.getElementById("people").innerHTML = td;
+    });
+}
+
+
+fetchGame();
+
+setInterval(function () {
+    fetchGame();
+}, 5000);

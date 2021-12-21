@@ -30,6 +30,7 @@ int main()
         for (int j = 0; j < us.userList[i].saveslotsN; j++)
         {
             printf("                {\n");
+            printf("                    \"lastUsed\": %d,\n", us.userList[i].saveslots[j].lastUsed);
             printf("                    \"worldId\": %d,\n", us.userList[i].saveslots[j].worldID);
             printf("                    \"roomId\": %d,\n", us.userList[i].saveslots[j].roomID);
             sanitizeJsonStringField(us.userList[i].saveslots[j].slotName);
